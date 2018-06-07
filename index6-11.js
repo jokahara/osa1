@@ -1,4 +1,4 @@
-// Tehtävät 1.6-1.9
+// Tehtävät 1.6-1.11
 import React from 'react'
 import ReactDOM from 'react-dom'
 
@@ -12,21 +12,26 @@ class App extends React.Component {
     }
   }
 
+  // 1.10*
+  lisaaPalaute = (mika) => {
+    return () => this.setState({ [mika]: this.state[mika] + 1 })
+  }  
+
   render() {
     return (
       <div>
         <h1>anna palautetta</h1>
         <div>
           <Button
-            handleClick={ () => this.setState({ hyva: this.state.hyva + 1 }) }
+            handleClick={ this.lisaaPalaute('hyva') }
             text="hyvä"
           />
           <Button
-            handleClick={ () => this.setState({ neutraali: this.state.neutraali + 1 }) }
+            handleClick={ this.lisaaPalaute('neutraali') }
             text="neutraali"
           />
           <Button
-            handleClick={ () => this.setState({ huono: this.state.huono + 1 }) }
+            handleClick={ this.lisaaPalaute('huono') }
             text="huono"
           />
         </div>
@@ -50,30 +55,34 @@ const Statistics = ({ hyva, neutraali, huono }) => {
 
   return <div>
     <h1>statistiikka</h1>
-    <Statistic
-      text = "hyvä"
-      value = {hyva}
-    />
-    <Statistic
-      text = "neutraali"
-      value = {neutraali}
-    />
-    <Statistic
-      text = "huono"
-      value = {huono}
-    />
-    <Statistic
-      text = "keskiarvo"
-      value = {keskiarvo()}
-    />
-    <Statistic
-      text = "positiivisia"
-      value = {positiivisia()}
-    />
+    <table>
+      <Statistic
+        text = "hyvä"
+        value = {hyva}
+      />
+      <Statistic
+        text = "neutraali"
+        value = {neutraali}
+      />
+      <Statistic
+        text = "huono"
+        value = {huono}
+      />
+      <Statistic
+        text = "keskiarvo"
+        value = {keskiarvo()}
+      />
+      <Statistic
+        text = "positiivisia"
+        value = {positiivisia()}
+      />
+    </table>
   </div>
 }
 
-const Statistic = ({ text, value }) => <div>{text} {value}</div>
+const Statistic = ({ text, value }) => {
+  return <tr> <td>{text}</td> <td>{value}</td> </tr>
+}
 
 const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>
